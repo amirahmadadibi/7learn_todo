@@ -12,7 +12,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  List<String> noteList = ['7learn1', '7learn2', '7learn3'];
+  List<String> noteList = [];
   TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -40,8 +40,11 @@ class _MyAppState extends State<MyApp> {
               ),
               ElevatedButton(
                   onPressed: () {
-                    noteList.add(controller.text);
-                    print(noteList);
+                   setState(() {
+                      noteList.add(controller.text);
+                      controller.text = '';
+                   });
+                   
                   },
                   child: Text('افزودن'))
             ],
