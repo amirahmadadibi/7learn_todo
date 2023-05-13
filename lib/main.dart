@@ -12,9 +12,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
-  List<String> noteList = ['7learn1','7learn2','7learn3'];
-
+  List<String> noteList = ['7learn1', '7learn2', '7learn3'];
+  TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -26,6 +25,7 @@ class _MyAppState extends State<MyApp> {
             children: [
               Expanded(
                 child: TextField(
+                  controller: controller,
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -38,7 +38,12 @@ class _MyAppState extends State<MyApp> {
                   ),
                 ),
               ),
-              ElevatedButton(onPressed: () {}, child: Text('افزودن'))
+              ElevatedButton(
+                  onPressed: () {
+                    noteList.add(controller.text);
+                    print(noteList);
+                  },
+                  child: Text('افزودن'))
             ],
           ),
           Expanded(
