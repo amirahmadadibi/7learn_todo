@@ -4,34 +4,53 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  List<String> noteList = ['7learn1','7learn2','7learn3'];
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
       body: SafeArea(
-        child: Row(
-          children: [
-            Expanded(
-              child: TextField(
-                decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(width: 3, color: Colors.red),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: BorderSide(width: 3, color: Colors.green),
+          child: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  decoration: InputDecoration(
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(width: 3, color: Colors.red),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide(width: 3, color: Colors.green),
+                    ),
                   ),
                 ),
               ),
+              ElevatedButton(onPressed: () {}, child: Text('افزودن'))
+            ],
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: noteList.length,
+              itemBuilder: (context, index) {
+                return Text(noteList[index]);
+              },
             ),
-            ElevatedButton(onPressed: () {}, child: Text('افزودن'))
-          ],
-        ),
-      ),
+          )
+        ],
+      )),
     )
 
         //        ListView.builder(
