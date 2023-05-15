@@ -7,7 +7,6 @@ void main() async {
   Hive.registerAdapter(NoteAdapter());
   await Hive.openBox<Note>('NoteBox');
 
-
   runApp(const MyApp());
 }
 
@@ -74,6 +73,7 @@ class _MyAppState extends State<MyApp> {
                         onChanged: (check) {
                           setState(() {
                             noteBox.values.toList()[index].isDone = check!;
+                            noteBox.values.toList()[index].save();
                             print(noteList);
                           });
                         })
