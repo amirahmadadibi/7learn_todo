@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_application/note.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,7 +13,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  List<String> noteList = [];
+  List<Note> noteList = [];
   TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -40,11 +41,11 @@ class _MyAppState extends State<MyApp> {
               ),
               ElevatedButton(
                   onPressed: () {
-                   setState(() {
-                      noteList.add(controller.text);
+                    setState(() {
+                      Note note = Note(note: controller.text, isDone: false);
+                      noteList.add(note);
                       controller.text = '';
-                   });
-                   
+                    });
                   },
                   child: Text('افزودن'))
             ],
@@ -53,7 +54,7 @@ class _MyAppState extends State<MyApp> {
             child: ListView.builder(
               itemCount: noteList.length,
               itemBuilder: (context, index) {
-                return Text(noteList[index]);
+                return Text(noteList[index].note);
               },
             ),
           )
