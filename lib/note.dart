@@ -3,4 +3,9 @@ class Note {
   bool isDone;
 
   Note({required this.note,required this.isDone});
+
+  @override
+  String toString() {
+    return '${this.note}-${this.isDone}';
+  }
 }

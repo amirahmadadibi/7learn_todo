@@ -45,6 +45,7 @@ class _MyAppState extends State<MyApp> {
                       Note note = Note(note: controller.text, isDone: false);
                       noteList.add(note);
                       controller.text = '';
+                      print(noteList);
                     });
                   },
                   child: Text('افزودن'))
