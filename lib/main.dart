@@ -4,6 +4,10 @@ import 'package:note_application/note.dart';
 
 void main() async {
   await Hive.initFlutter();
+  Hive.registerAdapter(NoteAdapter());
+  await Hive.openBox<Note>('NoteBox');
+
+
   runApp(const MyApp());
 }
 
@@ -17,6 +21,9 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   List<Note> noteList = [];
   TextEditingController controller = TextEditingController();
+
+  var noteBox = Hive.box<Note>('NoteBox');
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -45,9 +52,8 @@ class _MyAppState extends State<MyApp> {
                   onPressed: () {
                     setState(() {
                       Note note = Note(note: controller.text, isDone: false);
-                      noteList.add(note);
+                      noteBox.add(note);
                       controller.text = '';
-                      print(noteList);
                     });
                   },
                   child: Text('افزودن'))
@@ -55,19 +61,19 @@ class _MyAppState extends State<MyApp> {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: noteList.length,
+              itemCount: noteBox.values.toList().length,
               itemBuilder: (context, index) {
                 return Row(
                   children: [
                     Text(
-                      noteList[index].note,
+                      noteBox.values.toList()[index].note,
                       style: TextStyle(fontSize: 22),
                     ),
                     Checkbox(
-                        value: noteList[index].isDone,
+                        value: noteBox.values.toList()[index].isDone,
                         onChanged: (check) {
                           setState(() {
-                            noteList[index].isDone = check!;
+                            noteBox.values.toList()[index].isDone = check!;
                             print(noteList);
                           });
                         })
