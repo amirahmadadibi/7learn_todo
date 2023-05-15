@@ -26,74 +26,98 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: Scaffold(
-      body: SafeArea(
-          child: Column(
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  controller: controller,
-                  decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(width: 3, color: Colors.red),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(width: 3, color: Colors.green),
+        home: Directionality(
+      textDirection: TextDirection.rtl,
+      child: Scaffold(
+        backgroundColor: Color(0xff0C134F),
+        body: SafeArea(
+            child: Column(
+          children: [
+            Container(
+              margin: EdgeInsets.all(12),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: controller,
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide:
+                              BorderSide(width: 3, color: Color(0xff5C469C)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide:
+                              BorderSide(width: 3, color: Color(0xfffD4ADFC)),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-              ElevatedButton(
-                  onPressed: () {
-                
+                  SizedBox(
+                    width: 12,
+                  ),
+                  GestureDetector(
+                    onTap: () {
                       Note note = Note(note: controller.text, isDone: false);
                       noteBox.add(note);
 
-
-                     setState(() {
+                      setState(() {
                         controller.text = '';
-                     });
-                
-                  },
-                  child: Text('افزودن'))
-            ],
-          ),
-          Expanded(
-              child: ValueListenableBuilder(
-            valueListenable: noteBox.listenable(),
-            builder: (context, value, child) {
-              return ListView.builder(
-                itemCount: noteBox.values.toList().length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onDoubleTap: () {
-                      noteBox.values.toList()[index].delete();
+                      });
                     },
-                    child: Row(
-                      children: [
-                        Text(
-                          noteBox.values.toList()[index].note,
-                          style: TextStyle(fontSize: 22),
-                        ),
-                        Checkbox(
-                            value: noteBox.values.toList()[index].isDone,
-                            onChanged: (check) {
+                    child: Container(
+                      height: 60,
+                      width: 60,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        color: Colors.white,
+                      ),
+                      child: Icon(
+                        Icons.add,
+                        color: Colors.black,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Expanded(
+                child: ValueListenableBuilder(
+              valueListenable: noteBox.listenable(),
+              builder: (context, value, child) {
+                return ListView.builder(
+                  itemCount: noteBox.values.toList().length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onDoubleTap: () {
+                        noteBox.values.toList()[index].delete();
+                      },
+                      child: Row(
+                        children: [
+                          Checkbox(
+                              value: noteBox.values.toList()[index].isDone,
+                              onChanged: (check) {
                                 noteBox.values.toList()[index].isDone = check!;
                                 noteBox.values.toList()[index].save();
-                            })
-                      ],
-                    ),
-                  );
-                },
-              );
-            },
-          ))
-        ],
-      )),
+                              }),
+                          Text(
+                            noteBox.values.toList()[index].note,
+                            style: TextStyle(
+                                fontSize: 22,
+                                color: Colors.white,
+                                fontFamily: 'koodak'),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
+            ))
+          ],
+        )),
+      ),
     )
 
         //        ListView.builder(
