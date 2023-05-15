@@ -1,8 +1,16 @@
+import 'package:hive/hive.dart';
+
+part 'note.g.dart';
+
+@HiveType(typeId: 0)
 class Note {
+  @HiveField(0)
   String note;
+
+  @HiveField(1)
   bool isDone;
 
-  Note({required this.note,required this.isDone});
+  Note({required this.note, required this.isDone});
 
   @override
   String toString() {
