@@ -55,7 +55,22 @@ class _MyAppState extends State<MyApp> {
             child: ListView.builder(
               itemCount: noteList.length,
               itemBuilder: (context, index) {
-                return Text(noteList[index].note);
+                return Row(
+                  children: [
+                    Text(
+                      noteList[index].note,
+                      style: TextStyle(fontSize: 22),
+                    ),
+                    Checkbox(
+                        value: noteList[index].isDone,
+                        onChanged: (check) {
+                          setState(() {
+                            noteList[index].isDone = check!;
+                            print(noteList);
+                          });
+                        })
+                  ],
+                );
               },
             ),
           )
