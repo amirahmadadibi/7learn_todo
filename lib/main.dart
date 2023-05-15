@@ -49,39 +49,49 @@ class _MyAppState extends State<MyApp> {
               ),
               ElevatedButton(
                   onPressed: () {
-                    setState(() {
+                
                       Note note = Note(note: controller.text, isDone: false);
                       noteBox.add(note);
-                      controller.text = '';
-                    });
+
+
+                     setState(() {
+                        controller.text = '';
+                     });
+                
                   },
                   child: Text('افزودن'))
             ],
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: noteBox.values.toList().length,
-              itemBuilder: (context, index) {
-                return Row(
-                  children: [
-                    Text(
-                      noteBox.values.toList()[index].note,
-                      style: TextStyle(fontSize: 22),
+              child: ValueListenableBuilder(
+            valueListenable: noteBox.listenable(),
+            builder: (context, value, child) {
+              return ListView.builder(
+                itemCount: noteBox.values.toList().length,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onDoubleTap: () {
+                      noteBox.values.toList()[index].delete();
+                    },
+                    child: Row(
+                      children: [
+                        Text(
+                          noteBox.values.toList()[index].note,
+                          style: TextStyle(fontSize: 22),
+                        ),
+                        Checkbox(
+                            value: noteBox.values.toList()[index].isDone,
+                            onChanged: (check) {
+                                noteBox.values.toList()[index].isDone = check!;
+                                noteBox.values.toList()[index].save();
+                            })
+                      ],
                     ),
-                    Checkbox(
-                        value: noteBox.values.toList()[index].isDone,
-                        onChanged: (check) {
-                          setState(() {
-                            noteBox.values.toList()[index].isDone = check!;
-                            noteBox.values.toList()[index].save();
-                            print(noteList);
-                          });
-                        })
-                  ],
-                );
-              },
-            ),
-          )
+                  );
+                },
+              );
+            },
+          ))
         ],
       )),
     )
