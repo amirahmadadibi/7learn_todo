@@ -40,6 +40,10 @@ class _MyAppState extends State<MyApp> {
                   Expanded(
                     child: TextField(
                       controller: controller,
+                      style: TextStyle(
+                          fontFamily: 'koodak',
+                          fontSize: 20,
+                          color: Colors.white),
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -67,8 +71,8 @@ class _MyAppState extends State<MyApp> {
                       });
                     },
                     child: Container(
-                      height: 60,
-                      width: 60,
+                      height: 55,
+                      width: 55,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
                         color: Colors.white,
@@ -95,12 +99,21 @@ class _MyAppState extends State<MyApp> {
                       },
                       child: Row(
                         children: [
-                          Checkbox(
-                              value: noteBox.values.toList()[index].isDone,
-                              onChanged: (check) {
-                                noteBox.values.toList()[index].isDone = check!;
-                                noteBox.values.toList()[index].save();
-                              }),
+                          Transform.scale(
+                            scale: 1.5,
+                            child: Checkbox(
+                                checkColor: Colors.white,
+                                activeColor: Colors.green,
+                                side: BorderSide(color: Colors.white),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(4)),
+                                value: noteBox.values.toList()[index].isDone,
+                                onChanged: (check) {
+                                  noteBox.values.toList()[index].isDone =
+                                      check!;
+                                  noteBox.values.toList()[index].save();
+                                }),
+                          ),
                           Text(
                             noteBox.values.toList()[index].note,
                             style: TextStyle(
