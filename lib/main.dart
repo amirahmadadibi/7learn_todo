@@ -29,7 +29,7 @@ class _MyAppState extends State<MyApp> {
         home: Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        backgroundColor: Color(0xff0C134F),
+        backgroundColor: Color(0xffffffff),
         body: SafeArea(
             child: Column(
           children: [
@@ -43,7 +43,7 @@ class _MyAppState extends State<MyApp> {
                       style: TextStyle(
                           fontFamily: 'koodak',
                           fontSize: 20,
-                          color: Colors.white),
+                          color: Colors.black),
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -97,31 +97,57 @@ class _MyAppState extends State<MyApp> {
                       onDoubleTap: () {
                         noteBox.values.toList()[index].delete();
                       },
-                      child: Row(
-                        children: [
-                          Transform.scale(
-                            scale: 1.5,
-                            child: Checkbox(
-                                checkColor: Colors.white,
-                                activeColor: Colors.green,
-                                side: BorderSide(color: Colors.white),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(4)),
-                                value: noteBox.values.toList()[index].isDone,
-                                onChanged: (check) {
-                                  noteBox.values.toList()[index].isDone =
-                                      check!;
-                                  noteBox.values.toList()[index].save();
-                                }),
-                          ),
-                          Text(
-                            noteBox.values.toList()[index].note,
-                            style: TextStyle(
-                                fontSize: 22,
-                                color: Colors.white,
-                                fontFamily: 'koodak'),
-                          ),
-                        ],
+                      child: Container(
+                        height: 58,
+                        margin: const EdgeInsets.only(
+                            bottom: 10, left: 25, right: 25),
+                        decoration: BoxDecoration(
+                            color: Color(0xffF5F5F5),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: 12,
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  noteBox.values.toList()[index].note,
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.black,
+                                      fontFamily: 'koodak'),
+                                ),
+                                SizedBox(
+                                  height: 4,
+                                ),
+                                Text(
+                                  'ساعت ۹ تا ۱۲',
+                                  style: TextStyle(
+                                      fontSize: 10,
+                                      color: Color(0xffAAB0BD),
+                                      fontFamily: 'koodak'),
+                                )
+                              ],
+                            ),
+                            Spacer(),
+                            CustomChaeckBox(
+                                index, noteBox.values.toList()[index].isDone),
+                            SizedBox(
+                              width: 12,
+                            )
+                            // Checkbox(
+                            //     checkColor: Colors.white,
+                            //     activeColor: Colors.blue,
+                            //     side: BorderSide(color: Colors.white),
+                            //     shape: RoundedRectangleBorder(
+                            //         borderRadius: BorderRadius.circular(4)),
+                            //     value: noteBox.values.toList()[index].isDone,
+                            //     onChanged: (check) {}),
+                          ],
+                        ),
                       ),
                     );
                   },
@@ -145,5 +171,45 @@ class _MyAppState extends State<MyApp> {
         //     },
         //   )
         );
+  }
+}
+
+class CustomChaeckBox extends StatefulWidget {
+  int index;
+  bool isCheched;
+  CustomChaeckBox(this.index, this.isCheched, {super.key});
+
+  @override
+  State<CustomChaeckBox> createState() => _CustomChaeckBoxState();
+}
+
+class _CustomChaeckBoxState extends State<CustomChaeckBox> {
+  var noteBox = Hive.box<Note>('NoteBox');
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          widget.isCheched = !widget.isCheched;
+        });
+
+        noteBox.values.toList()[widget.index].isDone = widget.isCheched;
+        noteBox.values.toList()[widget.index].save();
+      },
+      child: Container(
+        width: 24,
+        height: 24,
+        decoration: BoxDecoration(
+            color: (widget.isCheched) ? Colors.blue : Colors.white,
+            borderRadius: BorderRadius.circular(4)),
+        child: (widget.isCheched)
+            ? Icon(
+                Icons.check,
+                color: Colors.white,
+              )
+            : null,
+      ),
+    );
   }
 }
