@@ -26,138 +26,192 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        theme: ThemeData(fontFamily: 'koodak'),
         home: Directionality(
-      textDirection: TextDirection.rtl,
-      child: Scaffold(
-        backgroundColor: Color(0xffffffff),
-        body: SafeArea(
-            child: Column(
-          children: [
-            Container(
-              margin: EdgeInsets.all(12),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: controller,
-                      style: TextStyle(
-                          fontFamily: 'koodak',
-                          fontSize: 20,
-                          color: Colors.black),
-                      decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide:
-                              BorderSide(width: 3, color: Color(0xff5C469C)),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide:
-                              BorderSide(width: 3, color: Color(0xfffD4ADFC)),
-                        ),
+          textDirection: TextDirection.rtl,
+          child: SafeArea(
+            child: Scaffold(
+              backgroundColor: Color(0xffffffff),
+              appBar: AppBar(
+                toolbarHeight: 250,
+                backgroundColor: Colors.white,
+                elevation: 0,
+                flexibleSpace: Container(
+                  height: 250,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 30,
                       ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 12,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Note note = Note(note: controller.text, isDone: false);
-                      noteBox.add(note);
-
-                      setState(() {
-                        controller.text = '';
-                      });
-                    },
-                    child: Container(
-                      height: 55,
-                      width: 55,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: Colors.white,
+                      SizedBox(
+                          width: 150,
+                          height: 40,
+                          child: Image.asset('assets/images/logo.png')),
+                      SizedBox(
+                        height: 30,
                       ),
-                      child: Icon(
-                        Icons.add,
-                        color: Colors.black,
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Expanded(
-                child: ValueListenableBuilder(
-              valueListenable: noteBox.listenable(),
-              builder: (context, value, child) {
-                return ListView.builder(
-                  itemCount: noteBox.values.toList().length,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onDoubleTap: () {
-                        noteBox.values.toList()[index].delete();
-                      },
-                      child: Container(
-                        height: 58,
-                        margin: const EdgeInsets.only(
-                            bottom: 10, left: 25, right: 25),
-                        decoration: BoxDecoration(
-                            color: Color(0xffF5F5F5),
-                            borderRadius: BorderRadius.circular(10)),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 25),
                         child: Row(
                           children: [
-                            SizedBox(
-                              width: 12,
-                            ),
                             Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  noteBox.values.toList()[index].note,
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.black,
-                                      fontFamily: 'koodak'),
+                                  'تسک های امروز',
+                                  style: TextStyle(fontSize: 18),
                                 ),
-                                SizedBox(
-                                  height: 4,
+                                const SizedBox(
+                                  height: 6,
                                 ),
                                 Text(
-                                  'ساعت ۹ تا ۱۲',
+                                  'دوشنبه ۱۲ تیر ۱۴۰۲',
                                   style: TextStyle(
-                                      fontSize: 10,
-                                      color: Color(0xffAAB0BD),
-                                      fontFamily: 'koodak'),
+                                      fontSize: 12, color: Color(0xffAAB0BD)),
                                 )
                               ],
                             ),
-                            Spacer(),
-                            CustomChaeckBox(
-                                index, noteBox.values.toList()[index].isDone),
-                            SizedBox(
-                              width: 12,
+                            const Spacer(),
+                            GestureDetector(
+                              onTap: () {
+                                Note note =
+                                    Note(note: controller.text, isDone: false);
+                                noteBox.add(note);
+
+                                setState(() {
+                                  controller.text = '';
+                                });
+                              },
+                              child: Container(
+                                height: 40,
+                                padding: EdgeInsets.symmetric(horizontal: 11),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Color(0xff33428DED)),
+                                child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'افزودن تسک',
+                                        style:
+                                            TextStyle(color: Color(0xff428DED)),
+                                      ),
+                                      Icon(
+                                        Icons.add,
+                                        color: Color(0xff428DED),
+                                      ),
+                                    ]),
+                              ),
                             )
-                            // Checkbox(
-                            //     checkColor: Colors.white,
-                            //     activeColor: Colors.blue,
-                            //     side: BorderSide(color: Colors.white),
-                            //     shape: RoundedRectangleBorder(
-                            //         borderRadius: BorderRadius.circular(4)),
-                            //     value: noteBox.values.toList()[index].isDone,
-                            //     onChanged: (check) {}),
                           ],
                         ),
                       ),
-                    );
-                  },
-                );
-              },
-            ))
-          ],
-        )),
-      ),
-    )
+                      Container(
+                        margin:
+                            EdgeInsets.symmetric(vertical: 12, horizontal: 25),
+                        child: Expanded(
+                          child: TextField(
+                            controller: controller,
+                            style: TextStyle(
+                                fontFamily: 'koodak',
+                                fontSize: 20,
+                                color: Colors.black),
+                            decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(
+                                    width: 3, color: Color(0xff428DED)),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(
+                                    width: 3, color: Color(0xff428DED)),
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              body: SafeArea(
+                  child: Column(
+                children: [
+                  Expanded(
+                      child: ValueListenableBuilder(
+                    valueListenable: noteBox.listenable(),
+                    builder: (context, value, child) {
+                      return ListView.builder(
+                        itemCount: noteBox.values.toList().length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onDoubleTap: () {
+                              noteBox.values.toList()[index].delete();
+                            },
+                            onTap: () {
+                              noteBox.values.toList()[index].isDone =
+                                  !noteBox.values.toList()[index].isDone;
+                              noteBox.values.toList()[index].save();
+                            },
+                            child: Container(
+                              height: 58,
+                              margin: const EdgeInsets.only(
+                                  bottom: 10, left: 25, right: 25),
+                              decoration: BoxDecoration(
+                                  color: (noteBox.values.toList()[index].isDone)
+                                      ? Color(0xff1a007BEC)
+                                      : Color(0xffF5F5F5),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    width: 12,
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        noteBox.values.toList()[index].note,
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            color: Colors.black,
+                                            fontFamily: 'koodak'),
+                                      ),
+                                      SizedBox(
+                                        height: 4,
+                                      ),
+                                      Text(
+                                        'ساعت ۹ تا ۱۲',
+                                        style: TextStyle(
+                                            fontSize: 10,
+                                            color: Color(0xffAAB0BD),
+                                            fontFamily: 'koodak'),
+                                      )
+                                    ],
+                                  ),
+                                  Spacer(),
+                                  CustomChaeckBox(index,
+                                      noteBox.values.toList()[index].isDone),
+                                  SizedBox(
+                                    width: 12,
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ))
+                ],
+              )),
+            ),
+          ),
+        )
 
         //        ListView.builder(
         //     itemCount: 300,
@@ -193,13 +247,10 @@ class _CustomChaeckBoxState extends State<CustomChaeckBox> {
         setState(() {
           widget.isCheched = !widget.isCheched;
         });
-
-        noteBox.values.toList()[widget.index].isDone = widget.isCheched;
-        noteBox.values.toList()[widget.index].save();
       },
       child: Container(
-        width: 24,
-        height: 24,
+        width: 20,
+        height: 20,
         decoration: BoxDecoration(
             color: (widget.isCheched) ? Colors.blue : Colors.white,
             borderRadius: BorderRadius.circular(4)),
@@ -207,6 +258,7 @@ class _CustomChaeckBoxState extends State<CustomChaeckBox> {
             ? Icon(
                 Icons.check,
                 color: Colors.white,
+                size: 20,
               )
             : null,
       ),
